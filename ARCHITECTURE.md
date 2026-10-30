@@ -60,11 +60,12 @@ function, resolver, scheduled job, write scope, KVS/SQL/LLM/container or remote
 service. The bundled public SDK contains unused helpers; inclusion does not
 mean invocation. The [official cost guide](https://developer.atlassian.com/platform/forge/optimise-forge-costs/)
 describes direct frontend calls without a backend invocation. Zero listed
-billable resource use is a design expectation. The recorded post-development
-dashboard showed zero displayed resource usage, $0 additional usage charges
-and a $0 forecast. Data may lag by up to one hour. This observation is not a
-hard $0 cap or a guarantee about production charges; actual usage still needs
-review as the app is used.
+billable resource use is a design expectation. The October 30, 2026
+post-production dashboard readback, after sharing was enabled, showed zero
+displayed resource usage, $0 additional usage charges and a $0 forecast. Data
+may lag by up to one hour; displayed charges exclude taxes and applicable
+discounts. This observation is not a hard $0 cap or a guarantee of future
+charges; actual usage still needs review as the app is used.
 
 Jira issue panels require permission to edit the current issue for visibility;
 the app's read-only API scope does not broaden Jira permissions. Context,
@@ -87,12 +88,16 @@ Native file import, denied/revoked/429 reads, full
 accessibility and independent reviewer installation remain unverified; see
 `JUDGING.md`.
 
-Devpost registration is complete and the draft is at 3/5, not Submitted.
-Source repository: [Handoff Lens on GitHub](https://github.com/CarsonCCHsieh/handoff-lens).
+[Handoff Lens is Submitted to Codegeist 2026](https://devpost.com/software/handoff-lens),
+with 5/5 steps complete. The submission includes a cover and five safe-cropped
+actual-production gallery images. The [source repository is public](https://github.com/CarsonCCHsieh/handoff-lens).
 [The public demonstration](https://youtu.be/5hZAqvJnOSI) uses edited still frames
 of actual screens with authored synthetic data and offline text-to-speech;
 its duration is 154 seconds.
-No judge sharing link is available yet. Independent judges should install on
-a Jira site they administer and are authorized to use; the host issue must be
-browsable and editable, and the app's read-only scope grants no additional
-Jira access.
+Jira sharing is enabled and the installation link is provided in the judge
+submission. The installer showed the approved owner alias and read permission;
+Get app opened the site chooser, which was cancelled. This verifies the route
+in the owner session, not installation by a separate user. Any holder of the
+link may install on a Jira site they administer. Independent judges should
+use a site they are authorized to use; the host issue must be browsable and
+editable, and the app's read-only scope grants no additional Jira access.

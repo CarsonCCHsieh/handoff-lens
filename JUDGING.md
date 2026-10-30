@@ -8,13 +8,13 @@ third-party notice checks, with the application JavaScript, CSP and API behavior
 unchanged. These are observed checks, not acceptance of every scenario or a
 full repeat of the earlier comparison checks on 2.3.0.
 
-Devpost registration is complete and the Handoff Lens draft is at 3/5; it has not
-been Submitted. Source repository: [Handoff Lens on GitHub](https://github.com/CarsonCCHsieh/handoff-lens).
-The independent judge installation-sharing link is pending.
-Preserve the registered manifest ID.
+[Handoff Lens is Submitted to Codegeist 2026](https://devpost.com/software/handoff-lens),
+with 5/5 submission steps complete. The [source repository is public](https://github.com/CarsonCCHsieh/handoff-lens).
+Jira sharing is enabled; the installation link is provided in the judge
+submission. Preserve the registered manifest ID.
 
 Judges should install the app on a Jira site they administer and are authorized
-to use, using the sharing link when available. The owner's installation does
+to use, using the installation link provided in the judge submission. The owner's installation does
 not provide access to that site. Use authored demonstration records in the
 judge's own environment. The host issue must be browsable and editable for the
 Handoff Lens button to appear; selected issues also require the current user's
@@ -56,17 +56,18 @@ browse and issue-security access. Open the host issue and choose **Handoff Lens*
 | Native file chooser/import | Automation's chooser wait timed out before file selection. Real import remains unverified; this does not establish an application defect. |
 | Denied/revoked access, 403 and 429 | Synthetic coverage only; not verified against real Jira. |
 | Full keyboard/accessibility, narrow layouts, independent user visibility | Pending real verification. |
-| Recorded usage/cost readback | The post-development dashboard showed zero displayed resource usage, $0 additional usage charges and a $0 forecast. Data may lag by up to one hour; this is not a hard spending cap or production charge guarantee. |
-| Independent reviewer installation | Pending; no judge sharing link is available yet. |
+| Recorded usage/cost readback | The October 30, 2026 post-production readback, after sharing was enabled, showed zero displayed resource usage, $0 additional usage charges and a $0 forecast. Data may lag by up to one hour; displayed charges exclude taxes and applicable discounts. This is not a hard spending cap or a guarantee of future charges. |
+| Jira sharing and installation route | Sharing enabled for Jira. The installer showed the approved owner alias and permission to view Jira issue data. Get app opened the site chooser, which was cancelled; the installation link is provided in the judge submission. Any holder may install on a Jira site they administer. |
+| Independent reviewer installation | Remains unverified. The route check used the existing owner session and did not complete a separate user's installation or grant access to the owner's site. |
 | Source repository | [Handoff Lens on GitHub](https://github.com/CarsonCCHsieh/handoff-lens). |
 | Demonstration video | [Public 154-second video](https://youtu.be/5hZAqvJnOSI), using edited still frames of actual screens, authored synthetic Jira data and offline text-to-speech narration. It describes missing-item, Clear and remount behavior and verification limits. |
-| Devpost registration and submission | Registered; details saved and draft at 3/5, not Submitted. |
+| Devpost registration and submission | Submitted, 5/5 steps complete, with the final Project submitted! confirmation. The submission includes a cover, five safe-cropped actual-production gallery images, public source and the public demonstration video. |
 
 Completed observations do not imply every scenario has been repeated against
-the latest deployment. Before submission, resolve remaining production checks,
-provide and test an independent reviewer installation route, and
-finish the remaining submission fields. Continue reviewing usage and describe remaining
-test coverage accurately. Do not present synthetic checks as platform evidence.
+the latest deployment. Separate independent-user installation, native file
+import, real denied/revoked/403/429 reads, full accessibility and narrow-layout
+checks remain unverified. Continue reviewing usage and describe test coverage
+accurately. Synthetic checks are not platform evidence.
 
 Local checks are documented in [README.md](README.md). Runtime data and cost
 boundaries are described in [ARCHITECTURE.md](ARCHITECTURE.md).

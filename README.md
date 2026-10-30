@@ -5,11 +5,13 @@ five issue keys, read their current status category, updated time and due date,
 then compare them with reference JSON you explicitly import by file or paste. English,
 繁體中文 and 日本語 are included.
 
-**Current state: production checks have been observed on the owner's Jira
-test site, and production 2.3.0 has been deployed.** Devpost
-registration is complete and the Handoff Lens draft is at 3/5; it has not been
-Submitted. Source repository: [Handoff Lens on GitHub](https://github.com/CarsonCCHsieh/handoff-lens).
-There is no independent reviewer sharing link yet.
+**Submitted to Codegeist 2026: 5/5 steps complete.**
+[View the Devpost project](https://devpost.com/software/handoff-lens).
+Production 2.3.0 is deployed, with production checks observed on the owner's
+Jira test site. [The source repository is public](https://github.com/CarsonCCHsieh/handoff-lens).
+Jira sharing is enabled and the installation link is provided in the judge
+submission. The installation route was inspected through its site chooser;
+a separate independent-user installation remains unverified.
 
 Production 2.0.0 checks read five authored demonstration issues, downloaded a
 snapshot confirmed on disk, and reread that pasted reference as unchanged.
@@ -80,8 +82,12 @@ a file someone already downloaded. See [ARCHITECTURE.md](ARCHITECTURE.md).
 ## Review in Jira
 
 Independent reviewers should install the app on a Jira site they administer
-and are authorized to use. The judge installation-sharing link is pending;
-the owner's existing installation does not grant reviewers site access.
+and are authorized to use, using the installation link provided in the judge
+submission. Sharing is enabled for Jira. The installer displayed the approved
+owner alias and permission to view Jira issue data; **Get app** opened the site
+chooser, which was cancelled. This route check used the existing owner session,
+not a separate reviewer account. The owner's existing installation does not
+grant reviewers site access.
 After installation, open an authored demonstration issue you can browse and
 edit, choose **Handoff Lens**, enter one to five issue keys and choose
 **Check selected issues**. The current user also needs access to each selected
@@ -111,14 +117,16 @@ forge deploy --environment production
 
 Choose the intended environment explicitly for each update; development and
 production versions are separate deployment records. A normal code update does
-not require a second registration. Production sharing and an independent judge
-installation remain separate work. Review the `read:jira-work` consent for any new install.
+not require a second registration. Production sharing is enabled; a separate
+independent judge installation remains unverified. Review the `read:jira-work`
+consent for any new install.
 Do not add payment details, accept a paid plan or add billable capabilities.
 Browser Custom UI/direct REST reads are designed to avoid function invocations;
-the recorded post-development dashboard showed zero displayed resource usage,
-$0 additional usage charges and a $0 forecast. That readback can lag by up to
-one hour and does not establish a hard spending cap or guarantee production
-charges. Continue reviewing actual usage; absence of a card is not a cap.
+the post-production dashboard readback on October 30, 2026, after sharing was
+enabled, showed zero displayed resource usage, $0 additional usage charges and
+a $0 forecast. Usage data may lag by up to one hour; displayed charges exclude
+taxes and applicable discounts. This is an observation, not a hard spending
+cap or a guarantee of future charges. Continue reviewing actual usage; absence of a card is not a cap.
 
 [JUDGING.md](JUDGING.md) records completed and pending acceptance checks. The
 project is MIT licensed; bundled components retain the notices in
