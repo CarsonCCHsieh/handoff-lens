@@ -2,13 +2,37 @@
 
 Check a small Jira handoff before passing it to the next person. Select one to
 five issue keys, read their current status category, updated time and due date,
-then compare them with a reference JSON file you explicitly import. English,
+then compare them with reference JSON you explicitly import by file or paste. English,
 繁體中文 and 日本語 are included.
 
-**Current state: local build, not registered, deployed, installed or submitted.**
-The all-zero app ID in `manifest.yml` is a placeholder. Real Jira permissions,
-Forge iframe behavior, file import/download and judge installation still need
-verification. This repository does not contain an installation link yet.
+**Current state: production checks have been observed on the owner's Jira
+test site, and production 2.3.0 has been deployed.** Devpost
+registration is complete and the Handoff Lens draft is at 3/5; it has not been
+Submitted. Source repository: [Handoff Lens on GitHub](https://github.com/CarsonCCHsieh/handoff-lens).
+There is no independent reviewer sharing link yet.
+
+Production 2.0.0 checks read five authored demonstration issues, downloaded a
+snapshot confirmed on disk, and reread that pasted reference as unchanged.
+After an authored issue changed from Done to In Progress, a new explicit check
+detected status-category and updated-time drift while the other four remained
+unchanged. Language switching preserved that read timestamp. A nonexistent
+reference issue withheld its key and prior values and disabled download;
+Clear removed the reference, scope and results. Production 2.3.0 passed a fresh
+single-issue read and focused checks of the same-page three-language guide and
+third-party notices. Expanding and collapsing these sections, including with
+Enter, and switching languages preserved the report and its read timestamp.
+The application JavaScript, CSP and Jira API behavior were unchanged by this
+resource fix; the earlier comparison scenarios were not all repeated on 2.3.0.
+
+[Watch the 154-second demonstration](https://youtu.be/5hZAqvJnOSI). It uses edited
+still frames of actual screens with authored synthetic data and offline
+text-to-speech narration, and describes the remount and verification limits.
+
+Earlier development checks also covered duplicate/six-key input rejection and
+checksum/workspace rejection. [JUDGING.md](JUDGING.md) separates production
+observations, development evidence, synthetic tests and unverified scenarios.
+These observations are not blanket acceptance of every scenario. Preserve the
+registered app ID already in `manifest.yml`.
 
 ## Build and test locally
 
@@ -31,8 +55,9 @@ host bridge; opening the built page alone is not a working Jira installation.
 
 The 16 core tests use authored synthetic metadata. The SDK initialization
 probe and two bundle probes use a minimal synthetic DOM/bridge; they check
-bounded requests and metadata timeout behavior, not real browser rendering or
-Jira authorization. Generated logs and probe results stay under ignored `.local/`.
+bounded requests, metadata timeout and reference-import guards, not real browser
+rendering or Jira authorization. Generated logs and probe results stay under
+ignored `.local/`.
 
 ## Runtime and data
 
@@ -44,38 +69,63 @@ refreshes, retries, writes, backend functions, storage, LLM calls or remote
 services. Missing workspace context allows fresh checks but disables reference
 comparison and export.
 
-State stays in page memory. Exported files contain selected issue keys and
+State stays in page memory. Jira can remount the panel after a host-page change,
+discarding its reference, scope and results; reimport a saved reference to
+continue that comparison. Exported files contain selected issue keys and
 metadata, capture/rule information and a workspace fingerprint; they can still
 be sensitive. A checksum detects content mismatch, not authorship or approval.
 Unavailable issues hide their prior fields in the report. This does not revoke
 a file someone already downloaded. See [ARCHITECTURE.md](ARCHITECTURE.md).
 
-## Real Forge installation
+## Review in Jira
 
-The project owner must finish scoped CLI authentication and register this app
-once before deployment. Keep tokens outside the repository and shell history.
-Do not rerun registration on an existing deployment merely to update code.
+Independent reviewers should install the app on a Jira site they administer
+and are authorized to use. The judge installation-sharing link is pending;
+the owner's existing installation does not grant reviewers site access.
+After installation, open an authored demonstration issue you can browse and
+edit, choose **Handoff Lens**, enter one to five issue keys and choose
+**Check selected issues**. The current user also needs access to each selected
+issue. Switch languages or download the current snapshot. Treat downloads as
+private Jira data.
 
-After those account steps, the intended commands are:
+To compare a reference, expand **Or paste reference JSON**, paste
+an exported snapshot and choose **Import pasted JSON**. Then choose **Use
+reference scope** and **Check selected issues**. File import remains available.
+Import alone starts no Jira reads. The app does not refresh after a Jira change;
+use another explicit check. If Jira remounts the panel, reimport the reference
+and select its scope first. Native file import remains unverified because the
+automation's file-chooser wait timed out before selection.
+
+## Owner deployment updates
+
+Scoped CLI authentication, app registration, development deployment and the
+production deployment/own-site installation have already been completed.
+Keep tokens outside the repository and shell history.
+Do not register another app to update this one. With authorized Forge CLI access:
 
 ```sh
-forge register "Handoff Lens"
+npm run build
 forge lint
-forge deploy --environment development
-forge install --site YOUR_SITE.atlassian.net --product jira --environment development
+forge deploy --environment production
 ```
 
-The last three require the real app ID written by registration. Registration,
-deployment and installation contact Atlassian; none were performed for this
-repository preparation. Review the `read:jira-work` consent at installation.
-Do not add payment details, accept a paid plan or add billable capabilities as
-part of this workflow. Browser Custom UI/direct REST reads are designed to
-avoid function invocations, but actual deployed usage has not been checked;
-absence of a card is not a spending cap.
+Choose the intended environment explicitly for each update; development and
+production versions are separate deployment records. A normal code update does
+not require a second registration. Production sharing and an independent judge
+installation remain separate work. Review the `read:jira-work` consent for any new install.
+Do not add payment details, accept a paid plan or add billable capabilities.
+Browser Custom UI/direct REST reads are designed to avoid function invocations;
+the recorded post-development dashboard showed zero displayed resource usage,
+$0 additional usage charges and a $0 forecast. That readback can lag by up to
+one hour and does not establish a hard spending cap or guarantee production
+charges. Continue reviewing actual usage; absence of a card is not a cap.
 
-[JUDGING.md](JUDGING.md) records the pending real-user walkthrough and acceptance
-checks. The project is MIT licensed; bundled components retain the notices in
+[JUDGING.md](JUDGING.md) records completed and pending acceptance checks. The
+project is MIT licensed; bundled components retain the notices in
 `licenses/` and `forge-build/THIRD_PARTY_NOTICES.txt`.
+See [PRIVACY.md](PRIVACY.md) for data handling and [SUPPORT.md](SUPPORT.md) for
+reporting an issue without posting restricted data. [TERMS.md](TERMS.md)
+describes use of this free hackathon build.
 
 Primary references: [Custom UI](https://developer.atlassian.com/platform/forge/extend-ui-with-custom-options/),
 [requestJira](https://developer.atlassian.com/platform/forge/apis-reference/ui-api-bridge/requestJira/),

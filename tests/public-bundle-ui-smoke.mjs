@@ -5,6 +5,8 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import { webcrypto, createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { checksum, contextFingerprint } from '../src/core.mjs';
+import { messages } from '../src/i18n.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const bundle = await fs.readFile(path.join(root, 'forge-build/app.mjs'), 'utf8');
@@ -33,6 +35,13 @@ for (const match of html.matchAll(/\bid="([^"]+)"/g)) nodes.set(match[1], new El
 const translated = [...html.matchAll(/data-i18n="([^"]+)"/g)].map(match => {
   const node = new Element(); node.dataset.i18n = match[1]; return node;
 });
+for (const language of ['en', 'zh-Hant', 'ja']) {
+  for (const node of translated) assert.equal(typeof messages[language][node.dataset.i18n], 'string');
+}
+assert.match(html, /<details\b[^>]*id="paste-reference"/);
+assert.match(html, /<label\b[^>]*for="reference-json"/);
+assert.match(html, /<textarea\b[^>]*id="reference-json"[^>]*aria-describedby="reference-json-hint"/);
+assert.match(html, /<button\b[^>]*id="import-json"[^>]*type="button"/);
 const document = {
   readyState: 'loading', referrer: 'https://host.synthetic.invalid/jira',
   documentElement: new Element('html'), body: new Element('body'),
@@ -115,8 +124,93 @@ for (const language of ['zh-Hant', 'ja', 'en']) {
   assert.equal(document.documentElement.lang, language);
 }
 assert.equal(calls.length, 6, 'Language changes must not read issues.');
+const reference = {
+  schemaVersion: 1, sourceMode: 'jira', sourceContext: await contextFingerprint('synthetic-tenant-probe'),
+  ruleVersion: 'lens-signals/1', capturedAt: '2026-10-29T07:00:00.000Z',
+  issues: [{ key: 'DEMO-1', statusCategory: 'new', updated: '2026-10-29T07:00:00.000Z', dueDate: null }]
+};
+reference.digest = await checksum(reference);
+const referenceText = JSON.stringify(reference);
+async function click(id) {
+  for (const handler of nodes.get(id).handlers.click) await handler();
+}
+async function paste(text, checkBusy = false) {
+  nodes.get('reference-json').value = text;
+  for (const handler of nodes.get('import-json').handlers.click) {
+    const pending = handler();
+    if (checkBusy) {
+      assert.equal(nodes.get('reference-json').disabled, true);
+      assert.equal(nodes.get('import-json').disabled, true);
+      assert.equal(nodes.get('reference-file').disabled, true);
+    }
+    await pending;
+  }
+}
+await paste(referenceText, true);
+assert.equal(calls.length, 6, 'Pasted reference validation must not read Jira.');
+assert.equal(nodes.get('reference-json').value, '');
+assert.equal(nodes.get('results').children.length, 0, 'Import must discard the previous report.');
+assert.equal(nodes.get('download').disabled, true);
+assert.equal(nodes.get('use-scope').disabled, false);
+assert.equal(nodes.get('status').textContent, messages.en.imported);
+await click('use-scope');
+assert.equal(nodes.get('issue-keys').value, '');
+await submit('');
+const expectedIssueGets = pendingContext ? 5 : 6;
+assert.equal(calls.length, 1 + expectedIssueGets);
+if (pendingContext) {
+  assert.equal(nodes.get('status').textContent, messages.en.source_mismatch);
+  assert.equal(nodes.get('results').children.length, 0);
+} else {
+  assert.equal(nodes.get('results').children.length, 1);
+  assert.ok(nodes.get('results').textContent.includes(messages.en.changed));
+  assert.ok(nodes.get('results').textContent.includes(messages.en.previous));
+  assert.equal(nodes.get('download').disabled, false);
+}
+const tamperedReference = JSON.parse(referenceText);
+tamperedReference.issues[0].statusCategory = 'done';
+for (const [text, expectedStatus] of [
+  ['{"invalid":', messages.en.invalid_snapshot],
+  ['界'.repeat(21846), messages.en.snapshot_too_large],
+  [JSON.stringify(tamperedReference), messages.en.checksum_mismatch]
+]) {
+  await paste(text);
+  assert.equal(nodes.get('status').textContent, expectedStatus);
+  assert.equal(nodes.get('reference-json').value, '');
+  assert.equal(nodes.get('results').children.length, 0);
+  assert.equal(nodes.get('use-scope').disabled, true, 'Failed import must remove the old reference.');
+  assert.equal(nodes.get('download').disabled, true);
+  assert.equal(calls.length, 1 + expectedIssueGets, 'Invalid paste must not read Jira.');
+  await paste(referenceText);
+  assert.equal(nodes.get('use-scope').disabled, false);
+}
+nodes.get('reference-json').value = 'draft to discard';
+nodes.get('reference-file').value = 'synthetic-reference.json';
+nodes.get('reference-file').files = [{ size: new TextEncoder().encode(referenceText).byteLength,
+  async text() { return referenceText; } }];
+for (const handler of nodes.get('reference-file').handlers.change) await handler({ target: nodes.get('reference-file') });
+assert.equal(nodes.get('status').textContent, messages.en.imported);
+assert.equal(nodes.get('reference-file').value, '');
+assert.equal(nodes.get('reference-json').value, '');
+assert.equal(nodes.get('use-scope').disabled, false, 'File import must still use the same validation flow.');
+assert.equal(calls.length, 1 + expectedIssueGets, 'File import must not read Jira.');
+const otherTenantReference = JSON.parse(referenceText);
+otherTenantReference.sourceContext = await contextFingerprint('other-synthetic-tenant');
+otherTenantReference.digest = await checksum(otherTenantReference);
+await paste(JSON.stringify(otherTenantReference));
+await click('use-scope');
+await submit('');
+assert.equal(nodes.get('status').textContent, messages.en.source_mismatch);
+assert.equal(calls.length, 1 + expectedIssueGets, 'Tenant mismatch must reject before issue reads.');
+assert.equal(nodes.get('results').children.length, 0);
+assert.equal(nodes.get('download').disabled, true);
+nodes.get('reference-json').value = referenceText;
+await click('clear');
+assert.equal(nodes.get('reference-json').value, '');
+assert.equal(nodes.get('use-scope').disabled, true);
+assert.equal(nodes.get('status').textContent, messages.en.removed);
 await new Promise(resolve => setTimeout(resolve, 30));
-assert.equal(calls.length, 6, 'No automatic follow-up reads.');
+assert.equal(calls.length, 1 + expectedIssueGets, 'No automatic follow-up reads.');
 assert.deepEqual(effects, []);
 const receipt = {
   createdUTC: new Date().toISOString(), nodeVersion: process.versions.node, passed: true,
@@ -126,16 +220,21 @@ const receipt = {
   contextTimeoutMs: timerDelays[0], contextTimerCleared,
   fallbackMountHasNoIssueReads: true,
   missingContextDisablesSnapshotExport: pendingContext ? nodes.get('download').disabled : null,
-  sdkBridgeCalls: { getContext: 1, fetchProduct: 5, other: 0 },
+  sdkBridgeCalls: { getContext: 1, fetchProduct: expectedIssueGets, other: 0 },
   allIssueReads: { method: 'GET', fixedPath: '/rest/api/3/issue/{validated-key}?fields=status,updated,duedate',
     triggeredByExplicitSubmit: true, maximumFive: true, sixKeysRejectedBeforeReads: true },
   languageChanges: ['zh-Hant', 'ja', 'en'], automaticFollowUpReadsObserved: 0,
+  pastedReference: { validImportWithoutReads: true, clearsPriorReport: true,
+    explicitComparison: !pendingContext, missingContextRejectedBeforeReads: pendingContext,
+    invalidJsonRejected: true, utf8ByteLimitEnforced: true, checksumMismatchRejected: true,
+    tenantMismatchRejectedBeforeReads: true, clearRemovesPastedText: true, fileImportPreserved: true },
   forbiddenEffects: effects, realBrowser: false, realJira: false,
   limits: ['Minimal synthetic DOM is not real rendering, accessibility, iframe behavior or Jira permission evidence.',
     'Mock bridge and Request/Response semantics are used only by this separate probe; production resource uses real SDK.']
 };
 await fs.mkdir(path.join(root, '.local/test-results'), { recursive: true });
 await fs.writeFile(path.join(root, pendingContext ? '.local/test-results/public-bundle-context-timeout.json' : '.local/test-results/public-bundle-ui-smoke.json'), JSON.stringify(receipt, null, 2) + '\n');
-console.log(JSON.stringify({ passed: true, contextCalls: 1, explicitIssueGets: 5,
+console.log(JSON.stringify({ passed: true, contextCalls: 1, explicitIssueGets: expectedIssueGets,
   sixKeysRejectedBeforeReads: true, languageChanges: 3, forbiddenEffects: 0,
+  pastedReferenceGuards: true,
   contextTimeoutMs: timerDelays[0], contextTimerCleared, pendingContext, realJira: false }));

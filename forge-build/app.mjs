@@ -6299,10 +6299,11 @@ var messages = {
   en: {
     lang: "Language",
     title: "A clearer handoff, one snapshot at a time.",
-    eyebrow: "HANDOFF LENS / PRIVATE PROTOTYPE",
+    eyebrow: "HANDOFF LENS / JIRA",
     intro: "Check a small set of Jira signals, then compare them with a portable reference. A signal is a prompt for a conversation, never an approval.",
     synthetic: "SYNTHETIC PREVIEW — authored fixture data only. No Jira connection or Forge deployment.",
-    jira: "JIRA ADAPTER — read-only, current-user requests. This build is not yet deployment-verified.",
+    jira: "Read-only Jira signals, checked with your current access.",
+    usageMode: "READ ONLY / MANUAL CHECKS",
     limits: "Up to 5 issues per click · manual refresh only · no issue writes or cloud storage",
     keys: "Issues in this handoff",
     keysHint: "Enter 1–5 issue keys, separated by commas. The selected scope may be incomplete.",
@@ -6313,6 +6314,10 @@ var messages = {
     check: "Check selected issues",
     checking: "Reading selected signals…",
     import: "Import reference JSON (64 KiB max)",
+    pasteImport: "Or paste reference JSON",
+    pasteLabel: "Reference JSON text",
+    pasteHint: "Up to 64 KiB. Import clears this text. Validation starts no Jira reads; choose Check to read issues.",
+    importPasted: "Import pasted JSON",
     imported: "Reference validated locally. Its contents remain hidden until each issue can be read again.",
     loaded: "Use reference scope",
     loadedHint: "Use up to five hidden keys from the imported reference for the next explicit read.",
@@ -6366,7 +6371,7 @@ var messages = {
     done: "Done",
     new: "New",
     indeterminate: "In progress",
-    help: "How to review this prototype",
+    help: "How to review Handoff Lens",
     permissionCaution: "Forge issue panels are visible only to users who can edit the current issue. API reads still require browse/security permissions.",
     importFirst: "Import a reference first.",
     removed: "View cleared.",
@@ -6375,10 +6380,11 @@ var messages = {
   "zh-Hant": {
     lang: "語言",
     title: "以一份快照，讓交接更清楚。",
-    eyebrow: "HANDOFF LENS / 私有原型",
+    eyebrow: "HANDOFF LENS / JIRA",
     intro: "核對少量 Jira 訊號，再與可攜式參考快照比較。訊號用來提示討論，不能代表核准。",
     synthetic: "合成預覽 — 僅使用人工設計資料，未連接 Jira、未部署 Forge。",
-    jira: "JIRA ADAPTER — 以目前使用者權限唯讀查詢，此版本尚未完成部署驗證。",
+    jira: "依你目前的存取權限，唯讀核對 Jira 訊號。",
+    usageMode: "唯讀 / 手動核對",
     limits: "每次最多 5 筆 · 僅手動更新 · 不寫入 issue、不使用雲端儲存",
     keys: "本次交接範圍",
     keysHint: "輸入 1–5 個 issue key，以逗號分隔。選定範圍可能不完整。",
@@ -6389,6 +6395,10 @@ var messages = {
     check: "核對選定項目",
     checking: "正在讀取選定訊號…",
     import: "匯入參考 JSON（最多 64 KiB）",
+    pasteImport: "或貼上參考 JSON",
+    pasteLabel: "參考 JSON 文字",
+    pasteHint: "最多 64 KiB，按下匯入後會清除文字。驗證不會讀取 Jira；請按核對按鈕讀取工作項目。",
+    importPasted: "匯入貼上的 JSON",
     imported: "已在本機驗證格式；每筆重新通過讀取前，不顯示參考內容。",
     loaded: "使用參考範圍",
     loadedHint: "下一次明確讀取時，採用匯入快照中最多五個尚未顯示的 key。",
@@ -6442,7 +6452,7 @@ var messages = {
     done: "完成",
     new: "新增",
     indeterminate: "進行中",
-    help: "如何審查此原型",
+    help: "如何審查 Handoff Lens",
     permissionCaution: "Forge issue panel 僅對目前 issue 有編輯權限的人可見；API 讀取仍需瀏覽與安全權限。",
     importFirst: "請先匯入參考檔。",
     removed: "已清除此檢視。",
@@ -6451,10 +6461,11 @@ var messages = {
   ja: {
     lang: "言語",
     title: "ひとつのスナップショットで、引き継ぎを明確に。",
-    eyebrow: "HANDOFF LENS / 非公開プロトタイプ",
+    eyebrow: "HANDOFF LENS / JIRA",
     intro: "少数の Jira シグナルを確認し、持ち運べる参照と比較します。シグナルは相談の手がかりであり、承認ではありません。",
     synthetic: "合成プレビュー — 人工データのみ。Jira 接続・Forge デプロイは未実施。",
-    jira: "JIRA ADAPTER — 現在のユーザー権限による読み取り専用。実際のデプロイは未検証です。",
+    jira: "現在のアクセス権で Jira のシグナルを読み取り専用で確認します。",
+    usageMode: "読み取り専用 / 手動確認",
     limits: "操作ごとに最大 5 件 · 手動更新のみ · issue 書き込み・クラウド保存なし",
     keys: "今回の引き継ぎ範囲",
     keysHint: "重複のない issue key を 1～5 件、カンマ区切りで入力。選んだ範囲が完全とは限りません。",
@@ -6465,6 +6476,10 @@ var messages = {
     check: "選択項目を確認",
     checking: "選択したシグナルを読み取り中…",
     import: "参照 JSON を読み込む（最大 64 KiB）",
+    pasteImport: "または参照 JSON を貼り付ける",
+    pasteLabel: "参照 JSON テキスト",
+    pasteHint: "最大 64 KiB。読み込み操作でテキストを消去します。検証では Jira を取得しません。確認ボタンで課題を取得してください。",
+    importPasted: "貼り付けた JSON を読み込む",
     imported: "形式をローカルで検証しました。各 issue の再読み取りに成功するまで参照内容は表示しません。",
     loaded: "参照の範囲を使用",
     loadedHint: "次の明示的な読み取りに、参照内の非表示 key を最大 5 件使用します。",
@@ -6518,7 +6533,7 @@ var messages = {
     done: "完了",
     new: "新規",
     indeterminate: "進行中",
-    help: "このプロトタイプの確認方法",
+    help: "Handoff Lens の確認方法",
     permissionCaution: "Forge issue panel は現在の issue を編集できるユーザーにのみ表示されます。API には別途閲覧・セキュリティ権限が必要です。",
     importFirst: "先に参照を読み込んでください。",
     removed: "画面をクリアしました。",
@@ -6607,7 +6622,7 @@ function mountWorkbench({ adapter, initialKeys: initialKeys2 = "", onScenarioCha
         output.append(card);
       }
     }
-    for (const id of ["issue-keys", "scenario", "check", "reference-file", "use-scope", "clear"]) $(id).disabled = state.busy;
+    for (const id of ["issue-keys", "scenario", "check", "reference-file", "reference-json", "import-json", "use-scope", "clear"]) $(id).disabled = state.busy;
     $("use-scope").disabled = state.busy || !state.snapshot;
     $("download").disabled = state.busy || !state.serialized;
   }
@@ -6617,6 +6632,23 @@ function mountWorkbench({ adapter, initialKeys: initialKeys2 = "", onScenarioCha
   }
   function errorCode(error) {
     return Object.hasOwn(messages.en, error?.code) ? error.code : "generic";
+  }
+  async function importReference(readText) {
+    if (state.busy) return;
+    state.snapshot = null;
+    state.useReference = false;
+    discardReport();
+    state.busy = true;
+    render();
+    try {
+      state.snapshot = await parseSnapshot(await readText());
+      state.status = "imported";
+    } catch (error) {
+      state.status = errorCode(error);
+    } finally {
+      state.busy = false;
+      render();
+    }
   }
   $("language").addEventListener("change", (event) => {
     state.language = Object.hasOwn(messages, event.target.value) ? event.target.value : "en";
@@ -6647,28 +6679,29 @@ function mountWorkbench({ adapter, initialKeys: initialKeys2 = "", onScenarioCha
     render();
   });
   $("reference-file").addEventListener("change", async (event) => {
+    if (state.busy) return;
     const file = event.target.files?.[0];
-    state.snapshot = null;
-    state.useReference = false;
-    discardReport();
     if (!file) {
+      state.snapshot = null;
+      state.useReference = false;
+      discardReport();
       state.status = "empty";
       render();
       return;
     }
-    state.busy = true;
-    render();
-    try {
+    $("reference-json").value = "";
+    await importReference(async () => {
       if (file.size > MAX_SNAPSHOT_BYTES) throw { code: "snapshot_too_large" };
-      state.snapshot = await parseSnapshot(await file.text());
-      state.status = "imported";
-    } catch (error) {
-      state.status = errorCode(error);
-    } finally {
-      $("reference-file").value = "";
-      state.busy = false;
-      render();
-    }
+      return file.text();
+    });
+    $("reference-file").value = "";
+  });
+  $("import-json").addEventListener("click", async () => {
+    if (state.busy) return;
+    const text = $("reference-json").value;
+    $("reference-json").value = "";
+    $("reference-file").value = "";
+    await importReference(() => text);
   });
   $("scope-form").addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -6707,6 +6740,7 @@ function mountWorkbench({ adapter, initialKeys: initialKeys2 = "", onScenarioCha
     discardReport();
     $("issue-keys").value = "";
     $("reference-file").value = "";
+    $("reference-json").value = "";
     state.status = "removed";
     render();
   });

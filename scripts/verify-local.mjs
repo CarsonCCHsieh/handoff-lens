@@ -19,6 +19,13 @@ for (const html of ['index.html', 'help.html']) {
   }
 }
 assert.ok((await read('forge-build/index.html')).includes("connect-src 'none'"));
+// The issue panel keeps its bridge and in-memory state while showing resources.
+const panelHtml = await read('forge-build/index.html');
+assert.doesNotMatch(panelHtml, /href="\.\/(?:index\.html|help\.html|THIRD_PARTY_NOTICES\.txt)"/);
+const embeddedNotice = panelHtml.match(/<pre\b[^>]*class="notice-text"[^>]*>([\s\S]*?)<\/pre>/)?.[1];
+assert.ok(embeddedNotice, 'Inline third-party notices must be present');
+assert.equal(embeddedNotice.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&').replaceAll('\r\n', '\n'),
+  (await read('forge-build/THIRD_PARTY_NOTICES.txt')).replaceAll('\r\n', '\n'), 'Keep embedded and generated license notices synchronized');
 assert.doesNotMatch(await read('forge-build/style.css'), /@import|url\s*\(/i);
 const manifest = (await read('manifest.yml')).split('\n').filter(line => !line.trimStart().startsWith('#')).join('\n');
 assert.doesNotMatch(manifest, /\b(function|resolver|storage|sql|remotes|scheduledTrigger|webtrigger|rovo:agent|container):/i);

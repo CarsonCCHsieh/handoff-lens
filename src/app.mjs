@@ -63,12 +63,21 @@ export function mountWorkbench({ adapter, initialKeys = '', onScenarioChange = n
         output.append(card);
       }
     }
-    for (const id of ['issue-keys', 'scenario', 'check', 'reference-file', 'use-scope', 'clear']) $(id).disabled = state.busy;
+    for (const id of ['issue-keys', 'scenario', 'check', 'reference-file', 'reference-json', 'import-json', 'use-scope', 'clear']) $(id).disabled = state.busy;
     $('use-scope').disabled = state.busy || !state.snapshot;
     $('download').disabled = state.busy || !state.serialized;
   }
   function discardReport() { state.report = null; state.serialized = ''; }
   function errorCode(error) { return Object.hasOwn(messages.en, error?.code) ? error.code : 'generic'; }
+  async function importReference(readText) {
+    if (state.busy) return;
+    state.snapshot = null; state.useReference = false; discardReport();
+    state.busy = true; render();
+    try {
+      state.snapshot = await parseSnapshot(await readText()); state.status = 'imported';
+    } catch (error) { state.status = errorCode(error); }
+    finally { state.busy = false; render(); }
+  }
   $('language').addEventListener('change', event => {
     state.language = Object.hasOwn(messages, event.target.value) ? event.target.value : 'en'; render();
   });
@@ -79,15 +88,23 @@ export function mountWorkbench({ adapter, initialKeys = '', onScenarioChange = n
     state.useReference = true; $('issue-keys').value = ''; discardReport(); state.status = 'loadedHint'; render();
   });
   $('reference-file').addEventListener('change', async event => {
+    if (state.busy) return;
     const file = event.target.files?.[0];
-    state.snapshot = null; state.useReference = false; discardReport();
-    if (!file) { state.status = 'empty'; render(); return; }
-    state.busy = true; render();
-    try {
+    if (!file) {
+      state.snapshot = null; state.useReference = false; discardReport(); state.status = 'empty'; render(); return;
+    }
+    $('reference-json').value = '';
+    await importReference(async () => {
       if (file.size > MAX_SNAPSHOT_BYTES) throw { code: 'snapshot_too_large' };
-      state.snapshot = await parseSnapshot(await file.text()); state.status = 'imported';
-    } catch (error) { state.status = errorCode(error); }
-    finally { $('reference-file').value = ''; state.busy = false; render(); }
+      return file.text();
+    });
+    $('reference-file').value = '';
+  });
+  $('import-json').addEventListener('click', async () => {
+    if (state.busy) return;
+    const text = $('reference-json').value;
+    $('reference-json').value = ''; $('reference-file').value = '';
+    await importReference(() => text);
   });
   $('scope-form').addEventListener('submit', async event => {
     event.preventDefault();
@@ -113,7 +130,7 @@ export function mountWorkbench({ adapter, initialKeys = '', onScenarioChange = n
   $('clear').addEventListener('click', () => {
     if (state.busy) return;
     state.snapshot = null; state.useReference = false; discardReport();
-    $('issue-keys').value = ''; $('reference-file').value = ''; state.status = 'removed'; render();
+    $('issue-keys').value = ''; $('reference-file').value = ''; $('reference-json').value = ''; state.status = 'removed'; render();
   });
   render();
 }

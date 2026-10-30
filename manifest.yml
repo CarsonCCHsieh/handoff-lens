@@ -1,5 +1,4 @@
-# LOCAL RESOURCE BUILT ONLY. Not registered, deployed, installed or Jira-verified.
-# The all-zero app ID is intentionally not a real registered app ARI.
+# Registered Forge application. Deployment and real Jira validation are tracked separately.
 modules:
   jira:issuePanel:
     - key: handoff-lens-panel
@@ -13,6 +12,6 @@ permissions:
   scopes:
     - read:jira-work
 app:
-  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000
+  id: ari:cloud:ecosystem::app/99a47bb9-5664-46a4-a6fa-2cf004d3fbc7
   runtime:
     name: nodejs24.x

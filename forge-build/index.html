@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <title>Handoff Lens — local Forge build</title>
+  <title>Handoff Lens — Jira handoff check</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.mjs"></script>
 </head>
 <body>
-  <header class="topbar"><a class="brand" href="./index.html">Handoff<span>Lens</span></a>
+  <header class="topbar"><span class="brand">Handoff<span>Lens</span></span>
     <label><span data-i18n="lang">Language</span><select id="language"><option value="en">English</option><option value="zh-Hant">繁體中文</option><option value="ja">日本語</option></select></label>
   </header>
   <main>
@@ -22,13 +22,239 @@
         <p id="keys-hint" class="hint" data-i18n="keysHint"></p>
         <label id="scenario-field" class="field"><span data-i18n="scenario"></span><select id="scenario"><option value="baseline" data-i18n="baseline"></option><option value="drift" data-i18n="drift"></option><option value="permission" data-i18n="permission"></option></select></label>
         <button id="check" class="primary" type="submit" data-i18n="check"></button>
-        <div class="reference"><label class="field"><span data-i18n="import"></span><input id="reference-file" type="file" accept=".json,application/json"></label><button id="use-scope" type="button" data-i18n="loaded"></button><p class="hint" data-i18n="loadedHint"></p></div>
+        <div class="reference">
+          <label class="field"><span data-i18n="import"></span><input id="reference-file" type="file" accept=".json,application/json"></label>
+          <details id="paste-reference" class="paste-import">
+            <summary data-i18n="pasteImport"></summary>
+            <div class="paste-controls">
+              <label class="field" for="reference-json"><span data-i18n="pasteLabel"></span><textarea id="reference-json" rows="6" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="reference-json-hint"></textarea></label>
+              <p id="reference-json-hint" class="hint" data-i18n="pasteHint"></p>
+              <button id="import-json" type="button" data-i18n="importPasted"></button>
+            </div>
+          </details>
+          <button id="use-scope" type="button" data-i18n="loaded"></button><p class="hint" data-i18n="loadedHint"></p>
+        </div>
         <div class="actions"><button id="download" type="button" disabled data-i18n="export"></button><button id="clear" type="button" data-i18n="clear"></button></div>
       </form>
       <section class="results" aria-label="Signal results"><p id="status" role="status" aria-live="polite"></p><div id="report-meta"></div><div id="results"></div></section>
     </section>
     <aside class="notes"><p data-i18n="rules"></p><p data-i18n="caution"></p><p data-i18n="permissionCaution"></p><p data-i18n="noPersistence"></p></aside>
-    <footer><a href="./help.html" data-i18n="help"></a><span>LOCAL BUILD / NOT DEPLOYED</span><a href="./THIRD_PARTY_NOTICES.txt">Third-party notices</a></footer>
+    <footer class="resource-footer">
+      <details id="review-guide" class="guide">
+        <summary data-i18n="help"></summary>
+        <div class="guide-content">
+          <article lang="en"><h2>Use Handoff Lens</h2><p>Open Handoff Lens from a Jira issue you can browse and edit. Enter 1–5 issue keys and choose <strong>Check selected issues</strong>. The app reads workflow category, update time and due date through your current Jira permissions. It does not automatically read, retry or write to issues.</p><p>After all reads succeed, you can download a snapshot. Import a file, or paste its JSON and choose <strong>Import pasted JSON</strong>. After a successful import, choose <strong>Use reference scope</strong>, then check again. Importing alone starts no Jira reads. Reference details appear in the report only after the corresponding current issue can be read; unavailable entries withhold their prior details and disable a new snapshot download.</p><p>Field differences and time-derived freshness are separate signals. Freshness uses a 48-hour threshold, and due dates use UTC calendar dates. A clear signal covers only the selected metadata; it does not establish complete dependencies, acceptance or handoff approval.</p><p>Snapshot files can contain sensitive issue keys, metadata and a workspace fingerprint. A checksum detects content mismatch, not authorship or approval. Imported times and source claims are untrusted. Only import or share data you are authorized to use; this view cannot revoke a file someone already has.</p><p>Working state stays in page memory. <strong>Clear this view</strong> removes the current input, reference and results; it does not securely erase memory, downloaded files or Jira data. Switching English, 繁體中文 or 日本語 changes the labels without reading Jira again. Read-only app scope does not grant browse or issue-security access.</p></article>
+          <article lang="zh-Hant"><h2>使用 Handoff Lens</h2><p>從你有權瀏覽及編輯的 Jira 工作項目開啟 Handoff Lens。輸入 1–5 個工作項目代碼，再按下<strong>核對選定項目</strong>。程式依目前的 Jira 權限讀取工作流程狀態分類、更新時間與到期日，不會自動讀取、重試或寫入工作項目。</p><p>全部讀取成功後可下載快照。匯入檔案，或貼上 JSON 後按下<strong>匯入貼上的 JSON</strong>。匯入成功後選擇<strong>使用參考範圍</strong>，再明確執行檢查；單純匯入不會讀取 Jira。只有能重新讀取的項目，才會在報告中顯示對應參照欄位；無法讀取的項目會隱藏舊參照資料，並停用新快照下載。</p><p>欄位變動與隨時間計算的資料新鮮度是不同訊號。新鮮度以 48 小時為門檻，到期日依 UTC 日曆日期比較。訊號正常僅涵蓋所選資料，不代表相依項目完整、工作已驗收或交接已核准。</p><p>快照可能含有敏感的工作項目代碼、資料及工作區指紋。檢查碼可發現內容不符，不能證明作者或核准狀態；匯入時間與來源宣稱也不能視為可信憑據。僅匯入或分享你有權使用的資料；此畫面無法撤回別人已持有的檔案。</p><p>操作資料僅保存在頁面記憶體。<strong>清除此檢視</strong>會移除目前輸入、參照與結果，但不會安全抹除記憶體、下載檔案或 Jira 資料。切換 English、繁體中文或日本語只會改變介面文字，不會重新讀取 Jira。應用程式的唯讀權限不會額外授予瀏覽或工作項目安全性權限。</p></article>
+          <article lang="ja"><h2>Handoff Lens の使い方</h2><p>閲覧と編集の権限がある Jira 課題から Handoff Lens を開きます。1〜5 件の課題キーを入力し、<strong>選択項目を確認</strong>してください。現在の Jira 権限でワークフローの状態カテゴリ、更新日時、期日のみを取得します。課題の自動取得、再試行、書き込みは行いません。</p><p>全件の取得が成功したらスナップショットを保存できます。ファイルを読み込むか、JSON を貼り付けて<strong>貼り付けた JSON を読み込む</strong>を押します。読み込みが成功したら<strong>参照の範囲を使用</strong>してから再確認します。読み込みだけでは Jira に問い合わせません。現在の課題を取得できた場合に限り、対応する参照情報を結果に表示します。取得できない課題の過去の参照情報は表示せず、新しいスナップショットの保存も無効になります。</p><p>フィールドの差分と時間の経過による鮮度は別のシグナルです。鮮度の基準は 48 時間、期日の比較は UTC の日付です。問題がないという表示は選択した情報だけを対象とし、依存関係の完全性、受け入れや引き継ぎの承認を示すものではありません。</p><p>スナップショットには機密性のある課題キー、メタデータ、ワークスペースの識別用ハッシュが含まれる場合があります。チェックサムは内容の不一致を検出しますが、作成者や承認を証明しません。読み込んだ日時や出所の申告も保証されません。権限のあるデータだけを読み込み、共有してください。この画面から既に保存されたファイルを取り消すことはできません。</p><p>作業状態はページのメモリ内だけに保持します。<strong>この画面をクリア</strong>すると入力、参照、結果を削除しますが、メモリ、保存済みファイル、Jira データを安全に消去するものではありません。English、繁體中文、日本語の切り替えでは表示言語だけが変わり、Jira を再取得しません。アプリの読み取り専用スコープによって閲覧権限や課題セキュリティの権限が付与されることはありません。</p></article>
+        </div>
+      </details>
+      <details id="third-party-notices" class="notices">
+        <summary>Third-party notices</summary>
+        <pre class="notice-text" tabindex="0" aria-label="Third-party license notices">@forge/bridge@7.2.1
+License: SEE LICENSE IN LICENSE.txt
+
+
+---
+
+Copyright (c) 2026 Atlassian
+Permission is hereby granted to use this software in accordance with the terms 
+and conditions outlined in the Atlassian Developer Terms, which can be found 
+at the following URL:
+https://developer.atlassian.com/platform/marketplace/atlassian-developer-terms/
+By using this software, you agree to comply with these terms and conditions. 
+If you do not agree with these terms, you are not permitted to use this software.
+
+---
+
+@forge/egress@3.0.1
+License: SEE LICENSE IN LICENSE.txt
+
+
+---
+
+Copyright (c) 2026 Atlassian
+Permission is hereby granted to use this software in accordance with the terms 
+and conditions outlined in the Atlassian Developer Terms, which can be found 
+at the following URL:
+https://developer.atlassian.com/platform/marketplace/atlassian-developer-terms/
+By using this software, you agree to comply with these terms and conditions. 
+If you do not agree with these terms, you are not permitted to use this software.
+
+---
+
+@forge/i18n@1.0.1
+License: SEE LICENSE IN LICENSE.txt
+
+
+---
+
+Copyright (c) 2026 Atlassian
+Permission is hereby granted to use this software in accordance with the terms 
+and conditions outlined in the Atlassian Developer Terms, which can be found 
+at the following URL:
+https://developer.atlassian.com/platform/marketplace/atlassian-developer-terms/
+By using this software, you agree to comply with these terms and conditions. 
+If you do not agree with these terms, you are not permitted to use this software.
+
+---
+
+iframe-resizer@4.4.5
+License: MIT
+
+
+---
+
+The MIT License (MIT)
+
+Copyright (c) 2013-2023 David J. Bradshaw
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+---
+
+js/iframeResizer.min.js
+/*! iFrame Resizer (iframeSizer.min.js ) - v4.4.5 - 2024-07-10
+ *  Desc: Force cross domain iframes to size to content.
+ *  Requires: iframeResizer.contentWindow.min.js to be loaded into the target frame.
+ *  Copyright: (c) 2024 David J. Bradshaw - dave@bradshaw.net
+ *  License: MIT
+ */
+
+js/iframeResizer.contentWindow.min.js
+/*! iFrame Resizer (iframeSizer.contentWindow.min.js) - v4.4.5 - 2024-07-10
+ *  Desc: Include this file in any page being loaded into an iframe
+ *        to force the iframe to resize to the content size.
+ *  Requires: iframeResizer.min.js on host page.
+ *  Copyright: (c) 2024 David J. Bradshaw - dave@bradshaw.net
+ *  License: MIT
+ */
+
+
+---
+
+{
+  "licenseTextSource": "https://raw.githubusercontent.com/davidjbradshaw/iframe-resizer/v4.4.4/LICENSE",
+  "noticeSource": "installed npm 4.4.5 JavaScript headers",
+  "reason": "4.4.5 tarball omitted LICENSE; no SDK code or dependency version modified."
+}
+
+---
+
+lodash@4.18.1
+License: MIT
+
+
+---
+
+Copyright OpenJS Foundation and other contributors &lt;https://openjsf.org/&gt;
+
+Based on Underscore.js, copyright Jeremy Ashkenas,
+DocumentCloud and Investigative Reporters &amp; Editors &lt;http://underscorejs.org/&gt;
+
+This software consists of voluntary contributions made by many
+individuals. For exact contribution history, see the revision history
+available at https://github.com/lodash/lodash
+
+The following license applies to all parts of this software except as
+documented below:
+
+====
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+====
+
+Copyright and related rights for sample code are waived via CC0. Sample
+code is defined as all source code displayed within the prose of the
+documentation.
+
+CC0: http://creativecommons.org/publicdomain/zero/1.0/
+
+====
+
+Files located in the node_modules and vendor directories are externally
+maintained libraries used by this software which have their own
+licenses; we recommend you read them, as their terms may differ from the
+terms above.
+
+
+---
+
+tslib@2.8.1
+License: 0BSD
+
+
+---
+
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+
+
+---
+
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+</pre>
+      </details>
+      <span data-i18n="usageMode"></span>
+    </footer>
   </main>
 </body>
 </html>

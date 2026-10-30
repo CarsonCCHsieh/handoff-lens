@@ -24,12 +24,16 @@ fingerprint must match before comparison reads. The SHA-256 digest detects
 accidental changes, not a malicious rewrite, identity or valid provenance.
 File metadata and device times are untrusted; fingerprints are not anonymization.
 
-Imported contents are not displayed on import. Scope selection requires a
-separate action. Successful rereads reveal only matching selected reference
+File and pasted-JSON imports use the same validator. Pasted text is visible
+while entered, then cleared by Import or Clear; validation starts no Jira read.
+An import discards the previous reference and report before parsing, including
+when validation fails. Imported contents are not displayed on import. Scope
+selection requires a separate action. Successful rereads reveal only matching selected reference
 fields. Denied, missing, rate-limited, invalid or timed-out reads produce a
 slot-only unavailable row without keys, prior values or provider error bodies.
-Removed reference issues are not included in the report. This view cannot
-prevent someone from inspecting a file they already possess.
+Removed reference issues are not included in the report. A manually entered
+key may remain in the input; choosing the imported scope clears that input.
+This view cannot prevent someone from inspecting a file they already possess.
 
 Signals use workflow category, a 48-hour freshness threshold and an explicit
 UTC due-date convention. Future timestamps beyond five minutes give uncertainty.
@@ -40,17 +44,55 @@ dependency completeness, acceptance or completed handoff.
 `src/app.mjs` uses DOM text construction. It clears the previous report before a
 new check or import and disables downloads after incomplete reads. Language
 changes do not read Jira. State stays in memory; no browser or Forge storage is
-used. Synthetic adapters and VM mocks exist only under `tests/`, outside the
+used. A Jira host-page change can remount the panel and discard its reference,
+scope and results. Continuing a comparison then requires reimporting the saved
+reference, selecting its scope and explicitly checking again. Synthetic
+adapters and VM mocks exist only under `tests/`, outside the
 runtime dependency graph.
+
+The three-language guide and third-party notices use native expandable
+sections in the same document. The brand does not navigate to another page.
+Static verification rejects internal document navigation and checks inline
+and generated license-notice synchronization, normalizing line endings.
 
 The manifest declares one Jira issue panel and `read:jira-work`. It has no
 function, resolver, scheduled job, write scope, KVS/SQL/LLM/container or remote
 service. The bundled public SDK contains unused helpers; inclusion does not
 mean invocation. The [official cost guide](https://developer.atlassian.com/platform/forge/optimise-forge-costs/)
 describes direct frontend calls without a backend invocation. Zero listed
-billable resource use is a design expectation, pending actual deployment and
-cost review; the platform has no established hard $0 cap for this app.
+billable resource use is a design expectation. The recorded post-development
+dashboard showed zero displayed resource usage, $0 additional usage charges
+and a $0 forecast. Data may lag by up to one hour. This observation is not a
+hard $0 cap or a guarantee about production charges; actual usage still needs
+review as the app is used.
 
 Jira issue panels require permission to edit the current issue for visibility;
-the app's read-only API scope does not broaden Jira permissions. Real permission,
-iframe, accessibility and independent-installation checks remain pending.
+the app's read-only API scope does not broaden Jira permissions. Context,
+allowed single/five-issue reads, language switching, JSON downloads, pasted
+reference comparison and explicit-refresh drift have been observed in the real
+development 2.1.0 installation. Development checks also covered
+checksum/workspace rejection. Production 2.0.0 checks on the owner's Jira test
+site observed five reads, a verified downloaded snapshot, pasted-reference
+comparison, status-category/updated-time drift after an explicit reread,
+unchanged read timestamps across languages, missing-issue sanitation and Clear.
+The drift check reimported the same saved reference after Jira remounted the
+panel and cleared its in-memory state. Production 2.3.0 passed a fresh
+single-issue read and focused checks of the same-document guide and notices.
+Their expansion, keyboard toggling and three-language presentation preserved
+the same report and read timestamp. This resource fix changed index/style
+content without changing the application JavaScript, CSP or API behavior.
+These are production checks observed, not blanket scenario acceptance or a
+full rerun of the earlier scenarios on 2.3.0.
+Native file import, denied/revoked/429 reads, full
+accessibility and independent reviewer installation remain unverified; see
+`JUDGING.md`.
+
+Devpost registration is complete and the draft is at 3/5, not Submitted.
+Source repository: [Handoff Lens on GitHub](https://github.com/CarsonCCHsieh/handoff-lens).
+[The public demonstration](https://youtu.be/5hZAqvJnOSI) uses edited still frames
+of actual screens with authored synthetic data and offline text-to-speech;
+its duration is 154 seconds.
+No judge sharing link is available yet. Independent judges should install on
+a Jira site they administer and are authorized to use; the host issue must be
+browsable and editable, and the app's read-only scope grants no additional
+Jira access.

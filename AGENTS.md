@@ -4,8 +4,8 @@
   app registration, deployment and installation under the user's existing
   participation authorization. A local-only subtask does not grant those
   actions to its agent or require the user to reapprove already authorized work.
-- The current manifest intentionally has a placeholder app ID. Register once
-  after scoped authentication, then preserve the real ID across updates. Do not
+- The manifest contains the registered Handoff Lens app ID. Preserve that ID
+  across updates; do not register a duplicate app. Do not
   put tokens, credential files, raw account context, private receipts or real
   Jira snapshots in source, commits, screenshots or public logs.
 - Preserve the public SDK, current-user fixed GET adapter, maximum five reads

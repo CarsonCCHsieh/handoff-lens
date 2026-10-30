@@ -1,0 +1,3 @@
+# Embedded upstream license notices retain their original line-end spaces.
+public/index.html whitespace=-blank-at-eol
+forge-build/index.html whitespace=-blank-at-eol
