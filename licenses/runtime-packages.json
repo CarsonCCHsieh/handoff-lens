@@ -1,0 +1,86 @@
+[
+  {
+    "name": "@forge/bridge",
+    "version": "7.2.1",
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "notices": [
+      {
+        "path": "licenses/forge-bridge/LICENSE.txt",
+        "sha256": "5463fef345f847963829016368639406059bd5a16a58582594dc1a8bf16582da"
+      }
+    ],
+    "supplementalProvenance": null
+  },
+  {
+    "name": "@forge/egress",
+    "version": "3.0.1",
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "notices": [
+      {
+        "path": "licenses/forge-egress/LICENSE.txt",
+        "sha256": "5463fef345f847963829016368639406059bd5a16a58582594dc1a8bf16582da"
+      }
+    ],
+    "supplementalProvenance": null
+  },
+  {
+    "name": "@forge/i18n",
+    "version": "1.0.1",
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "notices": [
+      {
+        "path": "licenses/forge-i18n/LICENSE.txt",
+        "sha256": "5463fef345f847963829016368639406059bd5a16a58582594dc1a8bf16582da"
+      }
+    ],
+    "supplementalProvenance": null
+  },
+  {
+    "name": "iframe-resizer",
+    "version": "4.4.5",
+    "license": "MIT",
+    "notices": [
+      {
+        "path": "licenses/iframe-resizer/LICENSE.upstream-v4.4.4",
+        "sha256": "d87495171ce8c68461183d63257690d066eaf8a7946c7999a3da51cbdb7c66b5"
+      },
+      {
+        "path": "licenses/iframe-resizer/NOTICE.npm-v4.4.5.txt",
+        "sha256": "c5af53ff410974856810617f6fffb12c46c7c58bab854d53aae2cf7a7ee5e4b8"
+      }
+    ],
+    "supplementalProvenance": {
+      "licenseTextSource": "https://raw.githubusercontent.com/davidjbradshaw/iframe-resizer/v4.4.4/LICENSE",
+      "noticeSource": "installed npm 4.4.5 JavaScript headers",
+      "reason": "4.4.5 tarball omitted LICENSE; no SDK code or dependency version modified."
+    }
+  },
+  {
+    "name": "lodash",
+    "version": "4.18.1",
+    "license": "MIT",
+    "notices": [
+      {
+        "path": "licenses/lodash/LICENSE",
+        "sha256": "f71e8ed126b46346494aad5486874cd8f0aafe95092ed67d2e3cb6110f939abc"
+      }
+    ],
+    "supplementalProvenance": null
+  },
+  {
+    "name": "tslib",
+    "version": "2.8.1",
+    "license": "0BSD",
+    "notices": [
+      {
+        "path": "licenses/tslib/CopyrightNotice.txt",
+        "sha256": "da16ddb65f8ca390998fb99223d0112498b56b45784d00afd77ff8ce1ac4de8b"
+      },
+      {
+        "path": "licenses/tslib/LICENSE.txt",
+        "sha256": "210b19e543130388c68654b7497e967119ce17145f66ab7d85688fbd70f08751"
+      }
+    ],
+    "supplementalProvenance": null
+  }
+]

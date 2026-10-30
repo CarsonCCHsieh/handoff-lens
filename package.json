@@ -1,0 +1,23 @@
+{
+  "name": "handoff-lens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A deliberate, read-only Jira handoff check with portable references.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/core.test.mjs",
+    "test:bundle": "node tests/public-sdk-init-probe.mjs && node tests/public-bundle-ui-smoke.mjs && node tests/public-bundle-ui-smoke.mjs --pending-context",
+    "verify:local": "node scripts/verify-local.mjs"
+  },
+  "dependencies": {
+    "@forge/bridge": "7.2.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

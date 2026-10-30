@@ -1,0 +1,18 @@
+# LOCAL RESOURCE BUILT ONLY. Not registered, deployed, installed or Jira-verified.
+# The all-zero app ID is intentionally not a real registered app ARI.
+modules:
+  jira:issuePanel:
+    - key: handoff-lens-panel
+      resource: main
+      title: Handoff Lens
+      icon: resource:main;icon.svg
+resources:
+  - key: main
+    path: forge-build
+permissions:
+  scopes:
+    - read:jira-work
+app:
+  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000
+  runtime:
+    name: nodejs24.x
