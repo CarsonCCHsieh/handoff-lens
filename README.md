@@ -26,7 +26,7 @@ Enter, and switching languages preserved the report and its read timestamp.
 The application JavaScript, CSP and Jira API behavior were unchanged by this
 resource fix; the earlier comparison scenarios were not all repeated on 2.3.0.
 
-[Watch the 154-second demonstration](https://youtu.be/5hZAqvJnOSI). It uses edited
+[Watch the 154-second demonstration](https://youtu.be/hV3Ok2VYKKM). It uses edited
 still frames of actual screens with authored synthetic data and offline
 text-to-speech narration, and describes the remount and verification limits.
 

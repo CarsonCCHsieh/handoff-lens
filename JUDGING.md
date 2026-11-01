@@ -60,7 +60,7 @@ browse and issue-security access. Open the host issue and choose **Handoff Lens*
 | Jira sharing and installation route | Sharing enabled for Jira. The installer showed the approved owner alias and permission to view Jira issue data. Get app opened the site chooser, which was cancelled; the installation link is provided in the judge submission. Any holder may install on a Jira site they administer. |
 | Independent reviewer installation | Remains unverified. The route check used the existing owner session and did not complete a separate user's installation or grant access to the owner's site. |
 | Source repository | [Handoff Lens on GitHub](https://github.com/CarsonCCHsieh/handoff-lens). |
-| Demonstration video | [Public 154-second video](https://youtu.be/5hZAqvJnOSI), using edited still frames of actual screens, authored synthetic Jira data and offline text-to-speech narration. It describes missing-item, Clear and remount behavior and verification limits. |
+| Demonstration video | [Public 154-second video](https://youtu.be/hV3Ok2VYKKM), using edited still frames of actual screens, authored synthetic Jira data and offline text-to-speech narration. It describes missing-item, Clear and remount behavior and verification limits. |
 | Devpost registration and submission | Submitted, 5/5 steps complete, with the final Project submitted! confirmation. The submission includes a cover, five safe-cropped actual-production gallery images, public source and the public demonstration video. |
 
 Completed observations do not imply every scenario has been repeated against

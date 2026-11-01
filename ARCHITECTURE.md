@@ -91,7 +91,7 @@ accessibility and independent reviewer installation remain unverified; see
 [Handoff Lens is Submitted to Codegeist 2026](https://devpost.com/software/handoff-lens),
 with 5/5 steps complete. The submission includes a cover and five safe-cropped
 actual-production gallery images. The [source repository is public](https://github.com/CarsonCCHsieh/handoff-lens).
-[The public demonstration](https://youtu.be/5hZAqvJnOSI) uses edited still frames
+[The public demonstration](https://youtu.be/hV3Ok2VYKKM) uses edited still frames
 of actual screens with authored synthetic data and offline text-to-speech;
 its duration is 154 seconds.
 Jira sharing is enabled and the installation link is provided in the judge
