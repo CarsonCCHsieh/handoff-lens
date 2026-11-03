@@ -13,6 +13,12 @@ with 5/5 submission steps complete. The [source repository is public](https://gi
 Jira sharing is enabled; the installation link is provided in the judge
 submission. Preserve the registered manifest ID.
 
+On 1 November 2026 (Asia/Taipei), the original submitted installer link opened
+successfully in the existing signed-in Chrome. Its landing page showed Handoff
+Lens, the approved CC HSIEH alias, Jira issue-data permission, and the privacy
+and support links. No installation or new grant was performed. This confirms
+the current landing route, not anonymous access or an independent judge install.
+
 Judges should install the app on a Jira site they administer and are authorized
 to use, using the installation link provided in the judge submission. The owner's installation does
 not provide access to that site. Use authored demonstration records in the
